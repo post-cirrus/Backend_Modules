@@ -1,0 +1,17 @@
+{
+  "name": "AuthModule",
+  "version": "0.0.1",
+  "description": "Module used to authticate cirrus users through a number of available OAUHT2 providers",
+  "main": "servers.js",
+  "scripts": {
+    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\","
+  },
+  "keywords": [
+    "auth",
+    "authentication",
+    "oauth",
+    "oauth2"
+  ],
+  "author": "nubitech",
+  "license": "BSD"
+}

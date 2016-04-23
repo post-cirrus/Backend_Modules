@@ -13,5 +13,8 @@
     "oauth2"
   ],
   "author": "nubitech",
-  "license": "BSD"
+  "license": "BSD",
+  "dependencies": {
+    "passport-google-oauth": "~1.0.0"
+  }
 }

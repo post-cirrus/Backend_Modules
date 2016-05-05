@@ -1,5 +1,5 @@
 [Loggers]
-    #Enanble Debugging
+    #Enable Debugging
     debug = true
     # Log to Console when running the module
     logToConsole = true

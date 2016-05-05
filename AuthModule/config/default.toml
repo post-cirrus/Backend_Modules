@@ -1,10 +1,8 @@
 [Loggers]
     #Enanble Debugging
     debug = true
-
     # Log to Console when running the module
     logToConsole = true
-
     # Log To File
     logToFile = false
     # Boolean flag indicating if we should colorize output.
@@ -22,7 +20,6 @@
     # The filename will always have the most recent log lines. The larger the appended number, the older the log file.
     # This option requires maxFiles to be set, or it will be ignored.
     tailable = true
-
     # Syslog-ng logging via http
     logToSyslogNg = false
     host = 'localhost'

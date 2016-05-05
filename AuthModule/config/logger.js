@@ -6,9 +6,6 @@ var pjson = require('../package.json');
 var cfgLog = config.get('Loggers');
 var transports = [];
 
-//var defaultLogger = true;
-
-
 // check if any looging is active
 if (cfgLog.logToConsole == false && cfgLog.logToFile == false && cfgLog.logToSyslogNg == false) {
   console.error("Detected that no logging option has been enabled!!! Enabling File logging and\n"+
@@ -17,6 +14,8 @@ if (cfgLog.logToConsole == false && cfgLog.logToFile == false && cfgLog.logToSys
   var defaultLogger = true;
 }
 
+// Defines how the format of a logging has to be
+// Date|logging level|Module Name:Module Version|Message
 var formatter = function(options) {
   return options.timestamp()+'|'+ options.level.toUpperCase()+'|'+pjson.name+':'+pjson.version+'|'+
     (undefined !== options.message ? options.message : '') +
@@ -27,10 +26,6 @@ var timestamp = function() {
   return new Date().toISOString().
   replace(/T/, ' '). // remove the 'T'
   replace(/\..+/, ''); // remove the . and everything after
-}
-
-if (!fs.existsSync(cfgLog.logDir)){
-  fs.mkdirSync(cfgLog.logDir);
 }
 
 if (cfgLog.logToConsole) {
@@ -46,6 +41,11 @@ if (cfgLog.logToConsole) {
 // Logging to file, when filew reaches the maxSize an new file will be creted.
 // Logging filename is the Module name as specified in the package.json file.
 if (defaultLogger) {
+
+  if (!fs.existsSync(cfgLog.logDir)){
+    fs.mkdirSync(cfgLog.logDir);
+  }
+
   transports.push(new (winston.transports.File)({
     name: 'info',
     filename: cfgLog.logDir+'/'+pjson.name+'.log',

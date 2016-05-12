@@ -1,1 +1,1 @@
-# Authtication Module for Cirrus Platform
+# Authentication Module for Cirrus Platform

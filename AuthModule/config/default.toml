@@ -2,15 +2,16 @@
     #Enable Debugging
     debug = true
     # Log to Console when running the module
-    logToConsole = true
+    logToConsole = false
     # Log To File
-    logToFile = false
+    logToFile = true
     # Boolean flag indicating if we should colorize output.
     logFileColorize = true
-    #Log directory will be created if doesn't exist
-    logDir = 'log'
+    #Logging directory to use
+    # //TODO : 'consider creating a sysmlink to /var/log or create the logging directory directley'
+    logFileDir = 'log'
     #Output the log entries in JSON format to log file
-    logFileJson = false
+    logFileJson = true
     # Max size in bytes of the logfile, if the size is exceeded then a
     # new file is created, a counter will become a suffix of the log file.
     maxSize = '1000000' # 1Mbyte
@@ -20,11 +21,6 @@
     # The filename will always have the most recent log lines. The larger the appended number, the older the log file.
     # This option requires maxFiles to be set, or it will be ignored.
     tailable = true
-    # Syslog-ng logging via http
-    logToSyslogNg = false
-    host = 'localhost'
-    port = '1234'
-    location = 'log'
 
 [AuthAPI]
     [google]

@@ -2,11 +2,11 @@
     #Enable Debugging
     debug = true
     # Log to Console when running the module
-    logToConsole = false
+    logToConsole = true
     # Log To File
     logToFile = true
     # Boolean flag indicating if we should colorize output.
-    logFileColorize = true
+    logFileColorize = false
     #Logging directory to use
     # //TODO : 'consider creating a sysmlink to /var/log or create the logging directory directley'
     logFileDir = 'log'
@@ -22,7 +22,8 @@
     # This option requires maxFiles to be set, or it will be ignored.
     tailable = true
 
-[AuthAPI]
+[Authentication]
+    port = 10080
     [google]
     [fb]
     [twitter]

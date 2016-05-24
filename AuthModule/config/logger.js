@@ -19,6 +19,7 @@ var timestamp = function() {
   replace(/T/, ' '). // remove the 'T'
   replace(/\..+/, ''); // remove the . and everything after
 }
+
 if (cfgLog.logToConsole) {
   transports.push(new (winston.transports.Console)({
     name : 'debug',
@@ -39,7 +40,7 @@ if (cfgLog.logToFile || (cfgLog.logToConsole == false && cfgLog.logToFile == fal
 
 transports.push(new (winston.transports.File)({
   name : 'info',
-    //TODO : 'consider creating a sysmlink to /var/log or create the logging directory directley' 
+    //TODO : 'consider creating a sysmlink to /var/log or create the logging directory directley'
     filename: cfgLog.logFileDir+'/'+pjson.name+'/'+pjson.name+'.log', // Logging filename is the Module name as specified in the package.json file.
     level : (cfgLog.debug) ? 'debug' : 'info',
     json : cfgLog.logFileJson,
@@ -50,7 +51,6 @@ transports.push(new (winston.transports.File)({
     tailable : cfgLog.tailable,
     colorize : cfgLog.logFileColorize
   }));
-
 }
 
 var logger = new winston.Logger({

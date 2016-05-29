@@ -10,5 +10,11 @@
     "db"
   ],
   "author": "nubitech",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "winston": "~2.2.0",
+    "config": "~1.20.1",
+    "toml": "~2.3.0",
+    "apidoc": "~0.15.1"
+  }
 }

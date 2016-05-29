@@ -1,0 +1,14 @@
+{
+  "name": "CirrusDbQL",
+  "version": "0.0.1",
+  "description": "API that will expose DB content to the other modules",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "db"
+  ],
+  "author": "nubitech",
+  "license": "MIT"
+}

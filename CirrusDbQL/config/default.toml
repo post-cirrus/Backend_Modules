@@ -2,9 +2,9 @@
     #Enable Debugging
     debug = true
     # Log to Console when running the module
-    logToConsole = false
+    logToConsole = true
     # Log To File
-    logToFile = true
+    logToFile = false
     # Boolean flag indicating if we should colorize output.
     logFileColorize = true
     #Logging directory to use
@@ -21,3 +21,7 @@
     # The filename will always have the most recent log lines. The larger the appended number, the older the log file.
     # This option requires maxFiles to be set, or it will be ignored.
     tailable = true
+
+[Database]
+    url = "db.cirrus.io"
+    port = 27017

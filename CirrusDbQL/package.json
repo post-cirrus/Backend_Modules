@@ -15,6 +15,9 @@
     "winston": "~2.2.0",
     "config": "~1.20.1",
     "toml": "~2.3.0",
-    "apidoc": "~0.15.1"
+    "apidoc": "~0.15.1",
+    "express": "~4.13.4",
+    "mongoose": "~4.4.19",
+    "body-parser": "~1.15.1"
   }
 }

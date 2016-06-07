@@ -30,6 +30,10 @@ var log = require('../config/logger')
 var User = require('../models/User.js')
 var router = express.Router()
 
+router.get('/', function (request, response, next) {
+  response.satus(200).json({name: 'CirrusDbQL API', version: '0.0.1', description: 'REST API Query interface for Users Object in Client.Cirrus.io DB'})
+})
+
 /**
 *
 * @api {get} /list Request Users list

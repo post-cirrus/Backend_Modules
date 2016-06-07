@@ -3,17 +3,17 @@
 
 ## Setup and Start the API
 
-#### 1.First you need to make sure that you have an MonogoDB running, if not follow
-this instructions: [Vagrantfile-Mongodb](https://github.com/post-cirrus/Vagrant-Basic-Templates/blob/master/Vagrantfile-Mongodb/README.md)
+#### 1. Start a MongoDB instance
+First you need to make sure that you have an MonogoDB running, if not follow this instructions: [Vagrantfile-Mongodb](https://github.com/post-cirrus/Vagrant-Basic-Templates/blob/master/Vagrantfile-Mongodb/README.md)
 
-#### 2.Pull CirrusDbQL REST API version from git
+#### 2. Pull CirrusDbQL REST API version from git
 ```
 $ git clone -b cirrusdbql-0.0.1 --single-branch https://github.com/post-cirrus/Backend_Modules
 $ cd Backend_Modules
 $ cd CirrusDbQL
 ```
 
-#### 3.Build a Docker container (make sure the Docker Daemon is runnig)
+#### 3. Build a Docker container (make sure the Docker Daemon is runnig)
 ```
 $ docker build -t cirrus/cirrusdbqlapi-0.0.1 .
 $ docker images
@@ -23,7 +23,7 @@ cirrus/cirrusdbqlapi-0.0.1   latest              c39d731437e3        About a min
 node                         argon               1f9967dbfc82        13 days ago          647.2 MB
 ```
 
-#### 4.Run the REST API
+#### 4. Run the REST API
 
 Running your image with -d runs the container in detached mode, leaving the container running in the background.
 The -p flag redirects a public port to a private port inside the container.
@@ -45,4 +45,4 @@ $ docker logs <container id>
 
 ## Hints:
 
-To test out the API you can use Postman, which can be installed in Chrome.
+To test out the API you can use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop), which can be installed in Chrome.

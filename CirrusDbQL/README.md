@@ -55,6 +55,15 @@ $ docker-machine ip
 192.168.99.101
 ```
 
+## API Documentation
+
+The REST API documentaion is included in the Module and can be reached by opening a browser
+and navigate to http://docker_daemon_ip:10083/v1/doc. Example:
+
+```
+open http://192.168.99.101:10083/v1/doc
+```
+
 ## Hints
 * curl -i http://192.168.99.101:10083/v1/users
 * To test out the API you can use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop), which can be installed in Chrome.

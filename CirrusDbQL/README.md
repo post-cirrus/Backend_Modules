@@ -14,6 +14,9 @@ $ cd CirrusDbQL
 ```
 
 #### 3. Build a Docker container (make sure the Docker Daemon is runnig)
+
+Make sure the Docker Daemon is runnng on your machine
+
 ```
 $ docker build -t cirrus/cirrusdbqlapi-0.0.1 .
 $ docker images

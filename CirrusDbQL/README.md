@@ -55,7 +55,11 @@ $ docker-machine ip
 192.168.99.101
 ```
 
-## Hints:
+## Hints
 * curl -i http://192.168.99.101:10083/v1/users
 * To test out the API you can use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop), which can be installed in Chrome.
-* Stop Docker : docker stop <container id>
+* Docker :
+```
+$ docker stop <container id>
+$ docker restart <container id>
+```

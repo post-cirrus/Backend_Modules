@@ -13,7 +13,7 @@ $ cd Backend_Modules
 $ cd CirrusDbQL
 ```
 
-#### 3. Build a Docker container (make sure the Docker Daemon is runnig)
+#### 3. Build a Docker container
 
 Make sure the Docker Daemon is runnng on your machine
 

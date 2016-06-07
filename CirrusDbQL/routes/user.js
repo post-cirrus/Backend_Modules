@@ -30,6 +30,28 @@ var log = require('../config/logger')
 var User = require('../models/User.js')
 var router = express.Router()
 
+/**
+*
+* @api {get} / Request API name, version and description
+* @apiVersion 0.0.1
+* @apiExample {curl} Example usage:
+*     curl -i http://clients.db.cirrus.io:10083/v1/users/list
+*
+* @apiName GetAPI
+* @apiGroup Users
+*
+* @apiSuccess {String} name API name.
+* @apiSuccess {Stirng} version API version.
+* @apiSuccess {String} description API description.
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 ok
+*   {
+*     "name": "CirrusDbQL API",
+*     "version": "0.0.1",
+*     "description": "REST API Query interface for Users Object in Client.Cirrus.io DB"
+*   }
+*
+**/
 router.get('/', function (request, response, next) {
   response.satus(200).json({name: 'CirrusDbQL API', version: '0.0.1', description: 'REST API Query interface for Users Object in Client.Cirrus.io DB'})
 })

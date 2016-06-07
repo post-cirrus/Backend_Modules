@@ -57,8 +57,8 @@ $ docker-machine ip
 
 ## API Documentation
 
-The REST API documentaion is included in the Module and can be reached by opening a browser
-and navigate to http://docker_daemon_ip:10083/v1/doc. Example:
+The REST API documentation is included in the CirrusDbQL API and can be reached by opening a browser
+and navigating to url: http://docker_daemon_ip:10083/v1/doc.
 
 ```
 open http://192.168.99.101:10083/v1/doc

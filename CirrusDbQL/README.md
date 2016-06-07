@@ -30,7 +30,7 @@ node                         argon               1f9967dbfc82        13 days ago
 
 Running your image with -d runs the container in detached mode, leaving the container running in the background.
 The -p flag redirects a public port to a private port inside the container.
-The --add-host will map the name 'db.cirrus.io' to IP 192.168.82.104 (Hitn: you can have a mulitple of this entry. Example: --add-host foo:10.10.10.1 --add-host bar:10.10.10.2)
+The --add-host will map the name 'db.cirrus.io' to IP 192.168.82.104. (Hint: you can have a mulitple of this entry. Example: --add-host foo:10.10.10.1 --add-host bar:10.10.10.2)
 
 ```
 $ docker run --add-host db.cirrus.io:192.168.82.104 -p 10083:10083 -d cirrus/cirrusdbqlapi-0.0.1

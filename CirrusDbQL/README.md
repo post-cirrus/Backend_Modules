@@ -45,7 +45,16 @@ $ docker logs <container id>
 
 ```
 
+## Important
+
+In order to connect to the API you need to use the Docker virtual machine IP. When starting
+the Docker a virtual machine is created and an IP is assigned to the machine.
+
+```
+$ docker-machine ip
+192.168.99.101
+```
 
 ## Hints:
-
-To test out the API you can use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop), which can be installed in Chrome.
+* curl -i http://192.168.99.101:10083/v1/users 
+* To test out the API you can use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop), which can be installed in Chrome.

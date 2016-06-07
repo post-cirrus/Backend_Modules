@@ -1,4 +1,5 @@
 /**
+*
 * @apiDefine UserNotFound
 * @apiError UserNotFound The id of the user was not found
 *
@@ -11,6 +12,7 @@
 */
 
 /**
+*
 * @apiDefine NoValidId
 * @apiError NoValidId The id is not valid
 *
@@ -29,6 +31,7 @@ var User = require('../models/User.js')
 var router = express.Router()
 
 /**
+*
 * @api {get} /list Request Users list
 * @apiVersion 0.0.1
 * @apiExample {curl} Example usage:
@@ -92,6 +95,7 @@ router.get('/list', function (request, response, next) {
 
 router.route('/:id')
 /**
+*
 * @api {get} /:id Request User by id
 * @apiVersion 0.0.1
 * @apiExample {curl} Example usage:
@@ -154,6 +158,7 @@ router.route('/:id')
   })
 
   /**
+  *
   * @api {delete} /:id Delete a User
   * @apiVersion 0.0.1
   * @apiExample {curl} Example usage:
@@ -174,6 +179,7 @@ router.route('/:id')
   *    }
   * @apiUse UserNotFound
   * @apiUse NoValidId
+  *
   */
   .delete(function (request, response, next) {
     if (request.params.id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -201,6 +207,7 @@ router.route('/:id')
   })
 
   /**
+  *
   * @api {get} /:username Request User by username
   * @apiVersion 0.0.1
   * @apiExample {curl} Example usage:
@@ -276,14 +283,7 @@ router.route('/:username')
 *       $2a$10$6Mq0bcVCZfQ.DKNPshN8vuY67Hvg0wlIxAecdCHXZ3JC1mtZUuUkG
 *     }
 *
-* @apiError UserNotFound The username of the user was not found
-*
-* @apiErrorExample {json} Error-Response:
-*  HTTP/1.1 404 Not Found
-*    {
-*      "success": false,
-*      "message": "User not found for username: "+ username
-*    }
+* @apiUse UserNotFound
 *
 * @apiError Empty The username is not set
 *

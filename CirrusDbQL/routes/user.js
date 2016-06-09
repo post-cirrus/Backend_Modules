@@ -366,14 +366,14 @@ router.route('/:username/password')
 */
 router.route('/create')
   .post(function (request, response, next) {
-    log.debug('Create request received with Users information: "' + request.body + '"')
+    log.debug('Create request received with Users information: "' + request.body.username + '"')
     User.create(request.body, function (err, user) {
       if (err) {
-        log.error('Error while calling POST /user/create ' + err)
+        log.error('/create {success: false, errcode: ' + err.code + ', message: ' + err.errmsg + '}')
         return response.status(400).json({success: false, errcode: err.code, message: err.errmsg})
       }
       log.debug('User information: "' + user + '" => CREATED IN CLIENT.DB.CIRRUS.IO')
-      response.status(200).json(user)
+      response.status(200).json({success: true, message: '', user: user})
     })
   })
 

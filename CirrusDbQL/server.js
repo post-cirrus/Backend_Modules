@@ -31,7 +31,7 @@ app.use('/',
 * @api {get} / Request API name, version and description
 * @apiVersion 0.0.1
 * @apiExample {curl} Example usage:
-*     curl -i http://clients.db.cirrus.io:10083/v1/users/
+*     curl -i http://clients.db.cirrus.io:10083/
 *
 * @apiName GetAPI
 * @apiGroup Users

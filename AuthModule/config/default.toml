@@ -4,7 +4,7 @@
     # Log to Console when running the module
     logToConsole = true
     # Log To File
-    logToFile = true
+    logToFile = false
     # Boolean flag indicating if we should colorize output.
     logFileColorize = false
     #Logging directory to use
@@ -27,3 +27,8 @@
     [google]
     [fb]
     [twitter]
+
+[Clients.DB]
+    url = 'http://clients.db.cirrus.io'
+    port = 10083
+    version = 'v1'

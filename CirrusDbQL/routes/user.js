@@ -153,7 +153,7 @@ router.route('/:id')
       })
     } else {
       log.error('Error while calling GET /user. ERROR: Invalid id:' + request.params.id)
-      response.satus(200).send({susccess: false, message: 'This is not a valid User id: ' + request.params.id})
+      response.status(200).send({susccess: false, message: 'This is not a valid User id: ' + request.params.id})
     }
   })
 

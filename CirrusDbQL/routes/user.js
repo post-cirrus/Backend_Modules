@@ -1,3 +1,5 @@
+// TODO: Review webservice description, is not up to date
+
 /**
 *
 * @apiDefine UserNotFound
@@ -93,10 +95,10 @@ router.get('/list', function (request, response, next) {
   })
 })
 
-router.route('/:id')
+router.route('/id/:id')
 /**
 *
-* @api {get} /:id Request User by id
+* @api {get} /id/:id Request User by id
 * @apiVersion 0.0.1
 * @apiExample {curl} Example usage:
 *     curl -i http://clients.db.cirrus.io:10083/v1/users/5755d16266176f6d3ec888ce
@@ -138,7 +140,7 @@ router.route('/:id')
 * @apiUse NoValidId
 *
 */
-  .get(function (request, response, next) {
+  .post(function (request, response, next) {
     // This checks the params.id against the mongodb _id
     if (request.params.id.match(/^[0-9a-fA-F]{24}$/)) {
       User.findById(request.params.id, function (err, user) {
@@ -251,7 +253,7 @@ router.route('/:id')
   *     }
   *
   */
-router.route('/:username')
+router.route('/username/:username')
   .get(function (request, response, next) {
     User.findOne({username: request.params.username}, function (err, user) {
       if (err) {
@@ -261,7 +263,8 @@ router.route('/:username')
       if (!user) {
         response.send({success: false, message: 'No user found with username: ' + request.params.username})
       }
-      response.json(user)
+      log.info('Found user \n\t' + user)
+      response.status(200).json(user)
     })
   })
 
@@ -295,7 +298,8 @@ router.route('/:username')
 *    }
 *
 */
-router.route('/:username/password')
+
+/* router.route('/:username/password')
   .post(function (request, response, next) {
     if (!request.params.username) {
       User.findOne({username: request.params.username}, function (err, user) {
@@ -312,7 +316,7 @@ router.route('/:username/password')
     } else {
       return response.status(200).send({success: false, message: 'Not allowed'})
     }
-  })
+  })*/
 
 /**
 * @api {post} /create Create User
@@ -329,6 +333,7 @@ router.route('/:username/password')
 * @apiParam {String} role Users role.
 * @apiParam {String} oauthprovider Users oauth provider.
 *
+* @apiSuccess {String} Success true: User created/false: Some Error.
 * @apiSuccess {Object[]} User Users information.
 * @apiSuccess {Stirng} User._id User unique ID.
 * @apiSuccess {String} User.name Users name.
@@ -342,15 +347,18 @@ router.route('/:username/password')
 * @apiSuccessExample {json} Success-Response:
 *   HTTP/1.1 200 ok
 *     {
-*       "_id": "574f31e3f5bb2b6f7ec4798e",
-*       "name": "Nadia",
-*       "password": "$2a$10$6Mq0bcVCZfQ.DKNPshN8vuY67Hvg0wlIxAecdCHXZ3JC1mtZUuUkG",
-*       "username": "nborgia",
-*       "email": "nborgia@pt.lu",
-*       "__v": 0,
-*       "devices": [],
-*       "oauth": [],
-*       "role": "Family"
+*       "success": true,
+*       "user": {
+*         "__v": 0,
+*         "name": "Nadia",
+*         "password": "$2a$10$oSVe3ptB9rkcPmPb.xWBbOfa0qBs8l3de5i.hTEvGsqJkXqnNu5Be",
+*         "username": "nborgia",
+*         "email": "nborgia@pt.lu",
+*         "_id": "575c11e8bb3cae7344157eff",
+*         "devices": [],
+*         "oauth": [],
+*         "role": "Family"
+*       }
 *     }
 *
 * @apiError BadRequest Duplicate entry
@@ -366,14 +374,18 @@ router.route('/:username/password')
 */
 router.route('/create')
   .post(function (request, response, next) {
-    log.debug('Create request received with Users information: "' + request.body.username + '"')
+    // TODO : Review the deug message
+    log.debug('Create request received from: \n' +
+                  '\tOrigin host: ' + request.hostname + '\n' +
+                  '\tOrigin url: ' + request.originalUrl + '\n' +
+                  '\tRemote ip : ' + request.ip + '\n' + '\tand body Form : "' + request.body.name + '"')
     User.create(request.body, function (err, user) {
       if (err) {
         log.error('/create {success: false, errcode: ' + err.code + ', message: ' + err.errmsg + '}')
         return response.status(400).json({success: false, errcode: err.code, message: err.errmsg})
       }
       log.debug('User information: "' + user + '" => CREATED IN CLIENT.DB.CIRRUS.IO')
-      response.status(200).json({success: true, message: '', user: user})
+      response.status(200).json({success: true, user: user})
     })
   })
 

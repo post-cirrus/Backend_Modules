@@ -29,7 +29,7 @@
 
 var express = require('express')
 var log = require('../config/logger')
-var User = require('../models/User.js')
+var User = require('../models/User')
 var router = express.Router()
 
 /**
@@ -140,7 +140,7 @@ router.route('/id/:id')
 * @apiUse NoValidId
 *
 */
-  .post(function (request, response, next) {
+  .get(function (request, response, next) {
     // This checks the params.id against the mongodb _id
     if (request.params.id.match(/^[0-9a-fA-F]{24}$/)) {
       User.findById(request.params.id, function (err, user) {

@@ -40,7 +40,12 @@ var UserSchema = new Schema({
     name: {
       type: String
     }
-  }]
+  }],
+  community: {
+    type: Schema.Types.ObjectId,
+    ref: 'Community',
+    required: true
+  }
 })
 
 // Hashes user's password and stores it

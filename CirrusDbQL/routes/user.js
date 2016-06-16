@@ -81,21 +81,88 @@ var router = express.Router()
 *     }
 *
 */
-router.get('/list', function (request, response, next) {
-  User.find(function (err, users) {
-    if (err) {
-      log.error('Error while calling GET /user ' + err)
-      return next(err)
-    }
-    log.debug('Found ' + users.length)
-    if (users.length <= 0) {
-      response.status(200).json({success: false, message: 'Client.Cirrus.io DB is Empty.'})
-    }
-    response.status(200).json(users)
+router.route('/') // list all users
+  .get(function (request, response, next) {
+    User.find(function (err, users) {
+      if (err) {
+        log.error('Error while calling GET /user ' + err)
+        return next(err)
+      }
+      log.debug('Found ' + users.length)
+      if (users.length <= 0) {
+        response.status(200).json({success: false, message: 'Client.Cirrus.io DB is Empty.'})
+      }
+      response.status(200).json(users)
+    })
   })
-})
+  /**
+  * @api {post} /create Create User
+  * @apiVersion 0.0.1
+  * @apiExample {curl} Example usage:
+  *     curl -i http://clients.db.cirrus.io:10083/v1/users/foobar
+  * @apiName PostCreate
+  * @apiGroup Users
+  *
+  * @apiParam {String} name Users name.
+  * @apiParam {String} password Users password (uncrypted).
+  * @apiParam {String} username Users username.
+  * @apiParam {String} email Users email.
+  * @apiParam {String} role Users role.
+  * @apiParam {String} oauthprovider Users oauth provider.
+  *
+  * @apiSuccess {String} Success true: User created/false: Some Error.
+  * @apiSuccess {Object[]} User Users information.
+  * @apiSuccess {Stirng} User._id User unique ID.
+  * @apiSuccess {String} User.name Users name.
+  * @apiSuccess {String} User.password Users password.
+  * @apiSuccess {String} User.username Users username.
+  * @apiSuccess {String} User.email Users email.
+  * @apiSuccess {Obejct[]} User.devices Users list of devices.
+  * @apiSuccess {Object[]} User.oauth Users list of OAuth providers.
+  * @apiSuccess {String} User.role Users access role
+  *
+  * @apiSuccessExample {json} Success-Response:
+  *   HTTP/1.1 200 ok
+  *     {
+  *       "success": true,
+  *       "user": {
+  *         "__v": 0,
+  *         "name": "Nadia",
+  *         "password": "$2a$10$oSVe3ptB9rkcPmPb.xWBbOfa0qBs8l3de5i.hTEvGsqJkXqnNu5Be",
+  *         "username": "nborgia",
+  *         "email": "nborgia@pt.lu",
+  *         "_id": "575c11e8bb3cae7344157eff",
+  *         "devices": [],
+  *         "oauth": [],
+  *         "role": "Family"
+  *       }
+  *     }
+  *
+  * @apiError BadRequest Duplicate entry
+  *
+  * @apiErrorExample {json} Error-Response:
+  *  HTTP/1.1 400 Bad Request
+  *    {
+  *       "success": false,
+  *       "errcode": 11000,
+  *       "message": "E11000 duplicate key error collection: Cirrus.users index: keyname_1 dup key: { : \"keyname\" }"
+  *    }
+  *
+  */
+  .post(function (request, response, next) {
+    // TODO : Review the debug message, define a middleware
+    log.debug('Create request received from: \n' + '\tRemote ip : ' + request.ip + '\n' + '\tand body Form : "' + JSON.stringify(request.body) + '"')
+    User.create(request.body, function (error, user) {
+      if (error) {
+        log.error('Error while creating user \n\t"' + JSON.stringify(request.body) + '" in DB.\n\t ERROR: ' + error)
+        return response.status(400).json({success: false, errcode: error.code, message: error.errmsg})
+      }
+      log.debug('User information: "' + user + '" => CREATED IN CLIENTS.DB.CIRRUS.IO')
+      response.status(200).json({success: true, user: user})
+    })
+  })
 
-router.route('/id/:id')
+router.route('/:id')
 /**
 *
 * @api {get} /id/:id Request User by id
@@ -207,10 +274,19 @@ router.route('/id/:id')
       response.satus(200).send({susccess: false, message: 'This is not a valid User id: ' + request.params.id})
     }
   })
+  /**
+  * @api {put} /:id Update User's information
+  * @apiVersion 0.0.1
+  * @apiExample {curl} Example usage:
+  *      curl -i -X PUT http://clients.db.cirrus.io:10083/v1/users/5755d16266176f6d3ec888ce
+  *
+  */
+  .put(function (request, response, next) {
+  })
 
   /**
   *
-  * @api {get} /:username Request User by username
+  * @api {get} /username/:username Request User by username
   * @apiVersion 0.0.1
   * @apiExample {curl} Example usage:
   *     curl -i http://clients.db.cirrus.io:10083/v1/users/foobar
@@ -265,127 +341,6 @@ router.route('/username/:username')
       }
       log.info('Found user \n\t' + user)
       response.status(200).json(user)
-    })
-  })
-
-/**
-* @api {post} /:username/password Request Users password
-* @apiVersion 0.0.1
-* @apiExample {curl} Example usage:
-*     curl -i http://clients.db.cirrus.io:10083/v1/users/foobar
-* @apiName PostPasswordByUsername
-* @apiGroup Users
-*
-* @apiParam {String} username Users username.
-*
-* @apiSuccess {String} Password Users encrypted password.
-*
-* @apiSuccessExample {json} Success-Response:
-*   HTTP/1.1 200 ok
-*     {
-*       $2a$10$6Mq0bcVCZfQ.DKNPshN8vuY67Hvg0wlIxAecdCHXZ3JC1mtZUuUkG
-*     }
-*
-* @apiUse UserNotFound
-*
-* @apiError Empty The username is not set
-*
-* @apiErrorExample {json} Error-Response:
-*  HTTP/1.1 406 Not Acceptable
-*    {
-*      "success": false,
-*      "message": "Empty username not allowed."
-*    }
-*
-*/
-
-/* router.route('/:username/password')
-  .post(function (request, response, next) {
-    if (!request.params.username) {
-      User.findOne({username: request.params.username}, function (err, user) {
-        if (err) {
-          log.error('Error while calling POST /user/create ' + err)
-          return response.status().json(err)
-        }
-        if (!user.length <= 0) {
-          return response.status(404).send({success: false, message: 'No user found for username: ' + request.params.username})
-        } else {
-          return response.staus(200).send(user.password)
-        }
-      })
-    } else {
-      return response.status(200).send({success: false, message: 'Not allowed'})
-    }
-  })*/
-
-/**
-* @api {post} /create Create User
-* @apiVersion 0.0.1
-* @apiExample {curl} Example usage:
-*     curl -i http://clients.db.cirrus.io:10083/v1/users/foobar
-* @apiName PostCreate
-* @apiGroup Users
-*
-* @apiParam {String} name Users name.
-* @apiParam {String} password Users password (uncrypted).
-* @apiParam {String} username Users username.
-* @apiParam {String} email Users email.
-* @apiParam {String} role Users role.
-* @apiParam {String} oauthprovider Users oauth provider.
-*
-* @apiSuccess {String} Success true: User created/false: Some Error.
-* @apiSuccess {Object[]} User Users information.
-* @apiSuccess {Stirng} User._id User unique ID.
-* @apiSuccess {String} User.name Users name.
-* @apiSuccess {String} User.password Users password.
-* @apiSuccess {String} User.username Users username.
-* @apiSuccess {String} User.email Users email.
-* @apiSuccess {Obejct[]} User.devices Users list of devices.
-* @apiSuccess {Object[]} User.oauth Users list of OAuth providers.
-* @apiSuccess {String} User.role Users access role
-*
-* @apiSuccessExample {json} Success-Response:
-*   HTTP/1.1 200 ok
-*     {
-*       "success": true,
-*       "user": {
-*         "__v": 0,
-*         "name": "Nadia",
-*         "password": "$2a$10$oSVe3ptB9rkcPmPb.xWBbOfa0qBs8l3de5i.hTEvGsqJkXqnNu5Be",
-*         "username": "nborgia",
-*         "email": "nborgia@pt.lu",
-*         "_id": "575c11e8bb3cae7344157eff",
-*         "devices": [],
-*         "oauth": [],
-*         "role": "Family"
-*       }
-*     }
-*
-* @apiError BadRequest Duplicate entry
-*
-* @apiErrorExample {json} Error-Response:
-*  HTTP/1.1 400 Bad Request
-*    {
-*       "success": false,
-*       "errcode": 11000,
-*       "message": "E11000 duplicate key error collection: Cirrus.users index: keyname_1 dup key: { : \"keyname\" }"
-*    }
-*
-*/
-router.route('/create')
-  .post(function (request, response, next) {
-    // TODO : Review the deug message
-    log.debug('Create request received from: \n' +
-                  '\tOrigin host: ' + request.hostname + '\n' +
-                  '\tOrigin url: ' + request.originalUrl + '\n' +
-                  '\tRemote ip : ' + request.ip + '\n' + '\tand body Form : "' + request.body.name + '"')
-    User.create(request.body, function (err, user) {
-      if (err) {
-        log.error('/create {success: false, errcode: ' + err.code + ', message: ' + err.errmsg + '}')
-        return response.status(400).json({success: false, errcode: err.code, message: err.errmsg})
-      }
-      log.debug('User information: "' + user + '" => CREATED IN CLIENT.DB.CIRRUS.IO')
-      response.status(200).json({success: true, user: user})
     })
   })
 

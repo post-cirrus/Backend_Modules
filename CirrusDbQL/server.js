@@ -3,6 +3,8 @@ var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var config = require('config')
 var user = require('./routes/user')
+var community = require('./routes/community')
+var subscriptionPlan = require('./routes/subscriptionplans')
 var log = require('./config/logger')
 var passport = require('passport')
 require('./config/passport')(passport)
@@ -15,17 +17,19 @@ var port = process.env.PORT || 10083
 // Log Requests
 app.use(require('morgan')('combined', { 'stream': log.stream }))
 
-// Expose the API documentation
-app.use('/v1/doc', express.static('doc'))
-
 mongoose.connect('mongodb://' + db.url + ':' + db.port + '/Cirrus')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(passport.initialize())
 
+// Expose the API documentation
+app.use('/v1/doc', passport.authenticate('jwt', { session: false }), express.static('doc'))
+
 // Expose users REST API interface
 app.use('/v1/users', user)
+app.use('/v1/community', community)
+app.use('/v1/subscription', subscriptionPlan)
 
 /**
 *

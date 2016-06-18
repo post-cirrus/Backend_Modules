@@ -17,7 +17,8 @@ app.use(bodyParser.json())
 app.use(passport.initialize())
 
 // Expose the API documentation
-app.use('/v1/doc', passport.authenticate('jwt', { session: false }), express.static('doc'))
+// app.use('/v1/doc', passport.authenticate('jwt', { session: false }), express.static('doc'))
+app.use('/v1/doc', express.static('doc'))
 app.use('/v1/authapi', user)
 
 /**
@@ -42,7 +43,7 @@ app.use('/v1/authapi', user)
 *   }
 *
 **/
-app.use('/version', passport.authenticate('jwt', { session: false }), function (request, response, next) {
+app.use('/version', function (request, response, next) {
   response.status(200).json({name: pj.name, version: pj.version, description: pj.description})
 })
 

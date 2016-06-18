@@ -37,10 +37,8 @@ var UserSchema = new Schema({
     }
   }],
   devices: [{
-    name: {
-      type: Schema.Types.ObjectId,
-      ref: 'Device'
-    }
+    type: Schema.Types.ObjectId,
+    ref: 'Device'
   }],
   community: {
     type: Schema.Types.ObjectId,

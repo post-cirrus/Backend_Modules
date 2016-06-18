@@ -45,23 +45,6 @@ router.post('/authenticate', function (request, response, next) {
     })
   }
 })
-  /* if (!request.body) {
-    log.info('Authentication request received for Username: ' + request.body.username)
-    restCall.post('http://clients.db.cirrus.io:8080/v1/users/' + request.body.username + '/password', function (error, response, body) {
-      if (!error && response.statusCode === 200) {
-        log.info(body)
-        if (bcrypt.compareSync(request.body.password, body)) {
-          response.status(200).json({ success: true, message: 'Authentication Success' })
-        } else {
-          response.status(401).json({ success: false, message: 'Authentication Failed' })
-        }
-      } else {
-        log.error(error)
-      }
-    })
-  } else {
-    return response.status(200).json({susccess: false, message: 'Empty username not allowed.'})
-  }*/
 
 /**
 * @api {post} /register Request Users password
@@ -153,19 +136,27 @@ router.post('/register', function (request, response) {
       'name': request.body.name,
       'role': request.body.role
     }
-    restCall.post({url: url + '/create', form: User}, function optionalCallback (err, httpResponse, body) {
-      log.debug('Register request action to CirrusDbQL at url ' + url + '/create \n\t => Form: "' + User + '"')
+    restCall.post({url: url + '/', form: User}, function optionalCallback (err, httpResponse, body) {
+      log.debug('Register request action to CirrusDbQL at url ' + url + '/ \n\t => Form: "' + JSON.stringify(User) + '"')
       if (err) {
         log.error('Error: ' + err + ' httpResponse: ' + httpResponse + ' body: ' + body)
         return response.status(404).json(err)
       }
-      log.debug('Response received from REST call to : ' + url + '/create\n => "' + JSON.parse(body).success + '"')
-      if (JSON.parse(body).success) {
-        log.info('Successfully created new user: ' + body)
-        response.status(200).json({success: true, message: 'Successfully created user', user: JSON.parse(body).user})
+      log.debug('Response received from REST call to : ' + url + '/\n => "' + JSON.stringify(body) + '"')
+      if (body) {
+        if (JSON.parse(body).success) {
+          log.info('Successfully created new user: ' + body)
+          var token = jwt.sign(JSON.parse(body).user, jwtConfig.secret, {
+            expiresIn: '1d' // in seconds
+          })
+        //  response.status(200).json({ success: true, token: 'JWT ' + token })
+          response.status(200).json({success: true, message: 'Successfully created user', token: 'JWT ' + token, user: JSON.parse(body).user})
+        } else {
+          log.info('Not Created. UnSuccessfully : ' + JSON.stringify(body))
+          response.status(400).json({success: false, message: 'Not Created. UnSuccessfully: ' + JSON.stringify(body)})
+        }
       } else {
-        log.info('Not Created. UnSuccessfully : ' + JSON.parse(body))
-        response.status(400).json({success: false, message: 'Not Created. UnSuccessfully: ' + JSON.parse(body).message})
+        response.status(400).json({success: false, message: 'Error: ' + body})
       }
     })
   }

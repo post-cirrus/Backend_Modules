@@ -17,7 +17,7 @@ app.use(bodyParser.json())
 app.use(passport.initialize())
 
 // Expose the API documentation
-app.use('/v1/doc', express.static('doc'))
+app.use('/v1/doc', passport.authenticate('jwt', { session: false }), express.static('doc'))
 app.use('/v1/authapi', user)
 
 /**

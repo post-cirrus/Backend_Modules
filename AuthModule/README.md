@@ -1,4 +1,4 @@
-# CirrusDbQL - Cirrus Clients.DB REST API
+# Authentication API - Cirrus Authentication Module REST API
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
 ## Setup and Start the API
@@ -6,7 +6,10 @@
 #### 1. Start a MongoDB instance
 First you need to make sure that you have an MonogoDB running, if not follow this instructions: [Vagrantfile-Mongodb](https://github.com/post-cirrus/Vagrant-Basic-Templates/blob/master/Vagrantfile-Mongodb/README.md)
 
-#### 2. Pull CirrusDbQL REST API version from git
+#### 2. Start CirrusDbQL REST API
+First you need to make sure that you have an MonogoDB running, if not follow this instructions: [CirrusDbQL](https://github.com/post-cirrus/Backend_Modules/blob/master/CirrusDbQL/README.md)
+
+#### 3. Pull Authentication REST API version from git
 ```
 $ git clone -b master --single-branch https://github.com/post-cirrus/Backend_Modules
 $ cd Backend_Modules
@@ -58,7 +61,7 @@ $ docker-machine ip
 ## API Documentation
 
 The REST API documentation is included in the CirrusDbQL API and can be reached by opening a browser
-and navigating to url: http://docker_daemon_ip:10083/v1/doc.
+and navigating to url: http://docker_daemon_ip:10080/v1/doc.
 
 ```
 open http://192.168.99.101:10080/v1/doc

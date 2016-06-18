@@ -40,7 +40,7 @@ $ docker run --add-host authentication.cirrus.io:192.168.82.100 -p 10080:10080 -
 $ docker ps
 
 CONTAINER ID        IMAGE                        COMMAND             CREATED             STATUS              PORTS                      NAMES
-6dd230b90acf        cirrus/auth-0.0.1   "npm start"         17 seconds ago      Up 3 seconds        0.0.0.0:10080->10080/tcp   gloomy_hawking
+6dd230b90acf        cirrus/auth-0.0.1           "npm start"         17 seconds ago      Up 3 seconds        0.0.0.0:10080->10080/tcp  gloomy_hawking
 
 $ docker logs <container id>
 

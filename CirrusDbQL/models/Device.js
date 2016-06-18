@@ -13,7 +13,7 @@ var DeviceSchema = new Schema({
   name: {
     type: String
   },
-  cloud: {
+  uuid: {
     type: String
   }
 })

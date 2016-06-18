@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
 var config = require('config')
 var user = require('./routes/user')
 var community = require('./routes/community')
-var subscriptionPlan = require('./routes/subscriptionplans')
+var subscriptionPlan = require('./routes/plans')
 var log = require('./config/logger')
 var passport = require('passport')
 require('./config/passport')(passport)
@@ -17,14 +17,13 @@ var port = process.env.PORT || 10083
 // Log Requests
 app.use(require('morgan')('combined', { 'stream': log.stream }))
 
-mongoose.connect('mongodb://' + db.url + ':' + db.port + '/Cirrus')
-
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(passport.initialize())
 
 // Expose the API documentation
-app.use('/v1/doc', passport.authenticate('jwt', { session: false }), express.static('doc'))
+// app.use('/v1/doc', passport.authenticate('jwt', { session: false }), express.static('doc'))
+app.use('/v1/doc', express.static('doc'))
 
 // Expose users REST API interface
 app.use('/v1/users', user)
@@ -57,6 +56,10 @@ app.use('/version', passport.authenticate('jwt', { session: false }), function (
   response.status(200).json({name: 'CirrusDbQL API', version: '0.0.1', description: 'REST API Query interface for Client.Cirrus.io DB'})
 })
 
-app.listen(port, function () {
-  log.info('Starting CirrusDbQL server on port ' + port)
+mongoose.connect('mongodb://' + db.url + ':' + db.port + '/Cirrus')
+mongoose.connection.on('error', log.error.bind(log, 'connection erro: '))
+mongoose.connection.once('open', function () {
+  app.listen(port, function () {
+    log.info('Starting CirrusDbQL server on port ' + port)
+  })
 })

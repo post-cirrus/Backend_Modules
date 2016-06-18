@@ -50,8 +50,8 @@ router.route('/')
   )
 
 router.route('/:id/adduser')
-/*  .get({ })
-  .delete({ })*/
+  /* .delete({ })*/
+  //TODO: Make user unique in Users Array
   .put(
     function (request, response, next) {
       log.info('Updating Community uuid "' + request.params.id + '" with params \n\t"' + JSON.stringify(request.body) + '"')

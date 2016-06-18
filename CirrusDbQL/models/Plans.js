@@ -2,8 +2,8 @@ var uuid = require('node-uuid')
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
-var SubcriptionPlanSchema = new Schema({
-  plan_name: {
+var PlansSchema = new Schema({
+  name: {
     type: String,
     required: true,
     unique: true
@@ -20,7 +20,7 @@ var SubcriptionPlanSchema = new Schema({
 })
 
 // Generates a uuid for the Community Cloud
-SubcriptionPlanSchema.pre('save', function (next) {
+PlansSchema.pre('save', function (next) {
   var plan = this
   if (this.isModified('uuid') || this.isNew) {
     plan.uuid = uuid.v4()
@@ -30,4 +30,4 @@ SubcriptionPlanSchema.pre('save', function (next) {
   }
 })
 
-module.exports = mongoose.model('SubscriptionPlan', SubcriptionPlanSchema)
+module.exports = mongoose.model('SubscriptionPlan', PlansSchema)

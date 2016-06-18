@@ -38,13 +38,14 @@ var UserSchema = new Schema({
   }],
   devices: [{
     name: {
-      type: String
+      type: Schema.Types.ObjectId,
+      ref: 'Device'
     }
   }],
   community: {
     type: Schema.Types.ObjectId,
-    ref: 'Community',
-    required: true
+    ref: 'Community'
+  //  required: true
   }
 })
 
